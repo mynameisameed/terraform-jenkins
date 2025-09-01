@@ -85,4 +85,6 @@ module "rds_db_instance" {
   mysql_username       = "dbuser"
   mysql_password       = "dbpassword"
   mysql_dbname         = "devprojdb"
+  instance_class       = "db.t3.micro" # Updated to supported instance class
+  engine_version       = "8.0.35"      # Updated to supported MySQL version
 }
