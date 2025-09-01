@@ -1,5 +1,3 @@
-# devops-project-1
-
 # DevOps Project 1: Automated AWS Infrastructure with Terraform and Jenkins
 
 ## Overview
