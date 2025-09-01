@@ -3,10 +3,28 @@
 # DevOps Project 1: Automated AWS Infrastructure with Terraform and Jenkins
 
 ## Overview
-This project demonstrates how to automate the provisioning of AWS infrastructure using Terraform, managed through a Jenkins CI/CD pipeline. The infrastructure includes networking, security groups, EC2 instances, an Application Load Balancer (ALB), and an RDS MySQL database, all deployed in the `us-east-1` region. ( You need Jenkins Server pre build)
+This project demonstrates how to automate the provisioning of AWS infrastructure using Terraform, managed through a Jenkins CI/CD pipeline. The infrastructure includes networking, security groups, EC2 instances, an Application Load Balancer (ALB), and an RDS MySQL database, all deployed in the `us-east-1` region. (You need a pre-built Jenkins Server and an S3 bucket for Terraform state.)
+
+## Prerequisites
+- AWS account with permissions to create VPC, EC2, RDS, ALB, and S3 resources
+- Pre-built Jenkins server (self-hosted or on EC2)
+- S3 bucket for Terraform remote state (see `infra/remote_backend_s3.tf`)
+- AWS credentials configured in Jenkins (ID: `aws-crendentails-sammy`)
+- Terraform and Git installed on Jenkins agent
+
+## Folder Structure
+```
+infra/
+  main.tf                # Root Terraform configuration
+  provider.tf            # AWS provider config
+  remote_backend_s3.tf   # S3 backend config
+  ... (modules for ec2, rds, networking, etc.)
+Jenkinsfile              # Jenkins pipeline definition
+README.md                # Project documentation
+```
 
 ## Architecture
-- **Jenkins Pipeline**: Orchestrates the entire workflow, from cloning the repository to running Terraform commands for infrastructure management.
+- **Jenkins Pipeline**: Orchestrates the workflow, from cloning the repository to running Terraform commands for infrastructure management.
 - **Terraform Modules**: Modularized code for networking, security, EC2, load balancer, RDS, and (optionally) Route53 and ACM.
 - **AWS Resources**:
   - VPC, subnets, and networking components
@@ -14,6 +32,18 @@ This project demonstrates how to automate the provisioning of AWS infrastructure
   - EC2 instance with Apache installation
   - Application Load Balancer (ALB)
   - RDS MySQL database
+
+### High-Level Architecture Diagram
+```
++-------------------+      +-------------------+      +-------------------+
+|    Jenkins CI     | ---> |   Terraform IaC   | ---> |    AWS Cloud      |
++-------------------+      +-------------------+      +-------------------+
+         |                        |                          |
+         |                        |                          |
+         |                        v                          v
+         |                [infra modules]         [VPC, EC2, ALB, RDS, SG]
+         +--------------------------------------------------------------+
+```
 
 ## How It Works
 1. **Jenkins Pipeline**
