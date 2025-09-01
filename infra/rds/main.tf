@@ -16,7 +16,6 @@ resource "aws_db_instance" "default" {
   allocated_storage       = 10
   storage_type            = "gp2"
   engine                  = "mysql"
-  engine_version          = "8.0.34"   # Updated to supported MySQL version
   instance_class          = "db.t3.micro" # Updated to supported instance class
   identifier              = var.mysql_db_identifier
   username                = var.mysql_username
